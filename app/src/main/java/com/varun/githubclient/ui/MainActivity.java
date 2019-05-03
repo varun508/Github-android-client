@@ -42,21 +42,28 @@ public class MainActivity extends AppCompatActivity {
         protected String doInBackground(String... strings) {
             // gets the url which was passed in the execute method
             String url = strings[0];
-
-            // Creates a new instance of the okhttp class
-            OkHttpClient client = new OkHttpClient();
-
-            // builds the request
-            Request request = new Request.Builder()
-                    .url(url)
-                    .build();
+            Log.d(TAG, "doInBackground: got url "+ url);
 
 
             try {
+                Log.d(TAG, "doInBackground: in try block");
+                // Creates a new instance of the okhttp class
+                OkHttpClient client = new OkHttpClient.Builder().build();
+                Log.d(TAG, "doInBackground: created client");
+
+                // builds the request
+                Request request = new Request.Builder()
+                        .url(url)
+                        .build();
+                Log.d(TAG, "doInBackground: request built");
+
                 // send request and wait for the response
                 Response response = client.newCall(request).execute();
+
+                Log.d(TAG, "doInBackground: waiting for response");
                 // send the response back
-                return response.body().toString();
+                return response.body().string();
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
